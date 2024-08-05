@@ -43,6 +43,7 @@ void _PG_init(void);
 
 PG_FUNCTION_INFO_V1(pgaudit_ddl_command_end);
 PG_FUNCTION_INFO_V1(pgaudit_sql_drop);
+PG_FUNCTION_INFO_V1(gp_event_trigger_ddl_commands);
 
 /*
  * Log Classes
@@ -560,7 +561,7 @@ log_audit_event(AuditEventStackItem *stackItem)
                             stackItem->auditEvent.commandText = commandStr;
                         }
                     }
-
+                    [[fallthrough]];
                 /* Classify role statements */
                 case T_GrantStmt:
                 case T_GrantRoleStmt:
@@ -1668,6 +1669,13 @@ pgaudit_sql_drop(PG_FUNCTION_ARGS)
     /* No longer in an internal statement */
     internalStatement = false;
 
+    PG_RETURN_NULL();
+}
+
+Datum
+gp_event_trigger_ddl_commands(PG_FUNCTION_ARGS)
+{
+    (void)pg_event_trigger_ddl_commands(fcinfo);
     PG_RETURN_NULL();
 }
 
