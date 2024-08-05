@@ -1525,7 +1525,7 @@ pgaudit_ddl_command_end(PG_FUNCTION_ARGS)
     query = "SELECT pg_catalog.upper(object_type),\n"
             "       object_identity,\n"
             "       pg_catalog.upper(command_tag)\n"
-            "  FROM pg_catalog.pg_event_trigger_ddl_commands()";
+            "  FROM gp_event_trigger_ddl_commands()";
 
     /* Attempt to connect */
     result = SPI_connect();
